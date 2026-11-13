@@ -60,7 +60,7 @@ union Midi_packet {
     void setPacket(int v) { val = v; }
     void setPacket(uint8_t* buffer) {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-        for (size_t idx = sizeof(bytes) - 1; idx >= 0; idx--) {
+        for (ssize_t idx = sizeof(bytes) - 1; idx >= 0; idx--) {
 #else
         for (size_t idx = 0; idx < sizeof(bytes); idx++) {
 #endif
@@ -87,7 +87,7 @@ union Midi_packet {
     uint8_t getStatus() const {return bytes[MIDI_PACKET_BYTE1];}
     uint8_t getData1() const {return bytes[MIDI_PACKET_BYTE2];}
     uint8_t getData2() const {return bytes[MIDI_PACKET_BYTE3];}
-    const size_t getPacketSize() { return sizeof(bytes); }
+    size_t getPacketSize() const { return sizeof(bytes); }
  private:
     uint32_t val;
     uint8_t bytes[4];
