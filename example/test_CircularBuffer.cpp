@@ -23,6 +23,8 @@
 // Make a 3-packet MIDI buffer class
 class MidiBuffer3 : public CircularBuffer<Midi_packet, 3>
 {
+public:
+    MidiBuffer3() : CircularBuffer<Midi_packet, 3>() {};
 };
 
 int main() {

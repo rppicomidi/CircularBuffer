@@ -21,6 +21,15 @@ private:
     size_t size = 0;
 public:
     /**
+     * @brief clear the buffer
+     */
+    void reset() {
+        head = 0;
+        tail = 0;
+        size = 0;
+    }
+
+    /**
      * @return true if the buffer is empty
      */
     bool isEmpty() const noexcept {
