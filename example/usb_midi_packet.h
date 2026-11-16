@@ -85,6 +85,25 @@ union Midi_packet {
     uint8_t getCin() const {return bytes[MIDI_PACKET_BYTE0] & 0xF;}
     uint8_t getCn() const {return (bytes[MIDI_PACKET_BYTE0] >> 4) & 0xF;}
     uint8_t getStatus() const {return bytes[MIDI_PACKET_BYTE1];}
+    bool isChanMessage() const {
+        return bytes[MIDI_PACKET_BYTE1] >= 0x80 && bytes[MIDI_PACKET_BYTE1] <= 0xEF;
+    }
+    /**
+     * @return the channel number 1-16 for channel messages or 0 if not a channel message packet
+     */
+    uint8_t getChanMesChannel() const {
+        if (isChanMessage())
+            return (bytes[MIDI_PACKET_BYTE1] & 0xF) + 1;
+        return 0; // not a channel message
+    }
+    /**
+     * @return the Code Index Number (CIN) for channel message or 0 if not a channel message
+     */
+    uint8_t getChanMesCin() {
+        if (isChanMessage())
+            return (bytes[MIDI_PACKET_BYTE1] >> 4) & 0xF;
+        return 0;
+    }
     uint8_t getData1() const {return bytes[MIDI_PACKET_BYTE2];}
     uint8_t getData2() const {return bytes[MIDI_PACKET_BYTE3];}
     size_t getPacketSize() const { return sizeof(bytes); }
