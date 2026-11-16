@@ -72,18 +72,18 @@ union Midi_packet {
     void setCinCn(uint8_t cinCn) {bytes[MIDI_PACKET_BYTE0] = cinCn; }
     void setCn(uint8_t cn) {
         bytes[MIDI_PACKET_BYTE0] &= 0xF0;
-        bytes[MIDI_PACKET_BYTE0] |= cn;
+        bytes[MIDI_PACKET_BYTE0] |= (cn << 4);
     }
     void setCin(uint8_t cin) {
         bytes[MIDI_PACKET_BYTE0] &= 0xF;
-        bytes[MIDI_PACKET_BYTE0] |= (cin << 4);
+        bytes[MIDI_PACKET_BYTE0] |= cin;
     }
     void setStatus(uint8_t status) {bytes[MIDI_PACKET_BYTE1] = status; }
     void setData1(uint8_t data1) {bytes[MIDI_PACKET_BYTE2] = data1;}
     void setData2(uint8_t data2) {bytes[MIDI_PACKET_BYTE3] = data2;}
     uint8_t getCinCn() const { return bytes[MIDI_PACKET_BYTE0]; }
-    uint8_t getCn() const {return bytes[MIDI_PACKET_BYTE0] & 0xF;}
-    uint8_t getCin() const {return (bytes[MIDI_PACKET_BYTE0] >> 4) & 0xF;}
+    uint8_t getCin() const {return bytes[MIDI_PACKET_BYTE0] & 0xF;}
+    uint8_t getCn() const {return (bytes[MIDI_PACKET_BYTE0] >> 4) & 0xF;}
     uint8_t getStatus() const {return bytes[MIDI_PACKET_BYTE1];}
     uint8_t getData1() const {return bytes[MIDI_PACKET_BYTE2];}
     uint8_t getData2() const {return bytes[MIDI_PACKET_BYTE3];}
