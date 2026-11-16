@@ -44,7 +44,7 @@
 #include <cstddef>
 
 // Store bytes in network byte order (big-endian)
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
 #define MIDI_PACKET_BYTE0 3
 #define MIDI_PACKET_BYTE1 2
 #define MIDI_PACKET_BYTE2 1
