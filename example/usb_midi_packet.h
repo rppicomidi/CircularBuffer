@@ -81,6 +81,26 @@ union Midi_packet {
     void setStatus(uint8_t status) {bytes[MIDI_PACKET_BYTE1] = status; }
     void setData1(uint8_t data1) {bytes[MIDI_PACKET_BYTE2] = data1;}
     void setData2(uint8_t data2) {bytes[MIDI_PACKET_BYTE3] = data2;}
+    /**
+     * @brief set the channel number for the packet as long as the status byte is for a channel message and chan in in range.
+     * Otherwise, do nothing
+     *
+     * @param chan the channel number 1-16 for channel message
+     */
+    void setChanMesChannel(uint8_t chan) {
+        if (isChanMessage() && chan >= 1 && chan <= 16)
+            bytes[MIDI_PACKET_BYTE1] = (bytes[MIDI_PACKET_BYTE1] & 0xF0) | (chan - 1);
+    }
+    /**
+     * @brief set channel message code index number and status byte upper 4 bits for an in-range code index number
+     * @param cin is the code index number between 0x8-0xE
+     */
+    void setChanMesCin(uint8_t cin) {
+        if (cin >= 0x8 && cin <= 0xE) {
+            bytes[MIDI_PACKET_BYTE1] = (bytes[MIDI_PACKET_BYTE1] & 0xF) | (cin << 4);
+            setCin(cin);
+        }
+    }
     uint8_t getCinCn() const { return bytes[MIDI_PACKET_BYTE0]; }
     uint8_t getCin() const {return bytes[MIDI_PACKET_BYTE0] & 0xF;}
     uint8_t getCn() const {return (bytes[MIDI_PACKET_BYTE0] >> 4) & 0xF;}
